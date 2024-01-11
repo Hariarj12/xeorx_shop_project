@@ -1,0 +1,33 @@
+<!-- user_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <style>
+        /* Add your styling here */
+    </style>
+</head>
+<body>
+    <h2>User List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Total Books Ordered</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users_with_orders %}
+                <tr>
+                    <td><a href="{% url 'user_detail' user.id %}">{{ user.username }}</a></td>
+                    <td>{{ user.total_books_ordered|default:0 }}</td>
+                    <td>Rs.{{ user.total_price|default:0 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

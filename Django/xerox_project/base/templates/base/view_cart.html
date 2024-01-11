@@ -1,0 +1,178 @@
+<!-- view_cart.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .confirmation-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Your Cart</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book_name, item in cart.items %}
+                <tr>
+                    <td>{{ item }}</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>Total Amount: Rs.{{ total_amount}}</p>
+    <form action="{% url 'confirm_order' %}" method="post" id="confirmation-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="username" value="{{ request.user.username }}">
+        <button type="submit" onclick="return confirm('Are you sure you want to place the order?');" class="confirmation-button">Place Order</button>
+    </form>
+</body>
+</html> -->
+
+
+
+<!-- view_cart.html -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        p {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .confirmation-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Your Cart</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>Rs.{{ item.total_price }}</td>>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>Total Amount: Rs.{{ total_amount}}</p>
+    <form action="{% url 'confirm_order' %}" method="post" id="confirmation-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="username" value="{{ request.user.username }}">
+        <button type="submit" onclick="return confirm('Are you sure you want to place the order?');" class="confirmation-button">Place Order</button>
+    </form>
+</body>
+</html>
+
