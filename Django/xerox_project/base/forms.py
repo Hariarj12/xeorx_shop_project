@@ -8,7 +8,7 @@ class BookForm(forms.ModelForm):
         fields = ['name','price']
 
 class AddToCartForm(forms.Form):
-    quantity = forms.IntegerField(min_value=1, label='Quantity')
+    quantity = forms.IntegerField(min_value=0, label='Quantity')
     
 class CustomerForm(forms.Form):
     name = forms.CharField(max_length=255, label='Your Name')

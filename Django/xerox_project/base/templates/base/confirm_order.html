@@ -1,38 +1,20 @@
-<!-- confirm_order.html -->
+<!-- confirmation_page.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Order</title>
-    <style>
-        /* Add your styling here */
-    </style>
+    <!-- Your head content goes here -->
 </head>
 <body>
-    <h2>Order Confirmation</h2>
-    <p>Your order has been confirmed. Thank you!</p>
+    <!-- Your existing content goes here -->
 
-    <!-- Optionally display the order details, e.g., items and total price -->
-    <h3>Order Details:</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Book Name</th>
-                <th>Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for book_id, item in cart.items %}
-                <tr>
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.quantity }}</td>
-                </tr>
+    {% if messages %}
+        <div class="success-message">
+            {% for message in messages %}
+                <p>{{ message }}</p>
             {% endfor %}
-        </tbody>
-    </table>
+        </div>
+    {% endif %}
 
-    <!-- Optionally display the total price -->
-    <p>Total Price: Rs.{{ total_price }}</p>
+    <!-- Your existing content goes here -->
 </body>
 </html>

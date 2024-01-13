@@ -24,10 +24,11 @@ class Order(models.Model):
 
 
 class Customer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    user        = models.ForeignKey(User, on_delete=models.CASCADE)
+    book        = models.ForeignKey(Book, on_delete=models.CASCADE)
+    quantity    = models.IntegerField()
     total_price = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    name = models.CharField(max_length=255) 
 
     def save(self, *args, **kwargs):
         # Calculate total price before saving

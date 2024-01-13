@@ -12,40 +12,65 @@ from decimal import Decimal
 
 #===========================================================================================================================
 
-def confirm_order(request):
+def confirm_order(request): 
     # Get the cart from session
     cart = request.session.get('cart', {})
-    # Calculate the total price
+
+    # Calculate the total price and update cart with book details
     total_price = 0
-    for book_id, item in cart.items():
+    customers   = []  # To store Customer instances in the cart
+
+    for book_id, item in cart.items(): 
         book = Book.objects.get(pk=book_id)
-        total_price += book.price * item['quantity']
+
+        # Handle the case when 'total_price' is not present in 'item'
+        try: 
+            total_price = item['total_price']
+        except KeyError: 
+            # Calculate 'total_price' using book price and quantity
+            total_price = book.price * item['quantity']
+
+        # Create a new Customer instance and set the book field
+        customer = Customer.objects.create(
+            user        = request.user,     # You may need to adjust this based on your User model
+            book        = book,
+            quantity    = item['quantity'],
+            total_price = total_price,
+            name        = 'John Doe'  # Replace with the actual customer name
+        )
+
+        customers.append(customer)
+
+    some_data = None  # Define some_data outside the if statement
+
     if request.method == 'POST':
-        # Handle the form submission
-        form = CustomerForm(request.POST)
-        if form.is_valid():
+       form            = CustomerForm(request.POST)
+       if form.is_valid(): 
             # Create a new Customer instance
             customer_name = form.cleaned_data['name']
-            customer = Customer.objects.create(name=customer_name)
-            # Perform additional processing if needed, e.g., updating book counts
-            # ...
-            # Clear the cart after confirming the order
-            request.session['cart'] = {}
+            customer      = Customer.objects.create(name=customer_name)
+            
+            # Replace the following placeholder functions with your actual logic
+            cart        = get_cart_data_somehow()  # Replace with your logic
+            total_price = calculate_total_price_somehow()  # Replace with your logic
+            some_data   = "your data here"  # Define some_data
+
             # Redirect to the confirmation page
-            return redirect('confirm_order', {'cart': cart, 'total_price': total_price, 'customer': customer})
-    else:
+            return redirect('confirmation_page')  # Adjust the URL name if needed
+    else: 
         form = CustomerForm()
 
-    return render(request, 'base/view_cart.html', {'cart': cart, 'total_price': total_price, 'form': form})
+    return render(request, 'base/view_cart.html', {'some_data': some_data, 'form': form})
 
 
-#===========================================================================================================================
+
+# =========================================================================================================================== 
 
 def view_cart(request): 
     cart         = request.session.get('cart', {})
     total_amount = 0
 
-    for book_id, item in list(cart.items()):    
+    for book_id, item in list(cart.items()): 
         try    : 
             book                 = get_object_or_404(Book, pk=book_id)
             item['name']         = book.name
@@ -230,7 +255,4 @@ def add_book(request):
 #=============================================================================================================================
 def book_list(request):
     books = Book.objects.all()
-    return render(request, 'base/book_list.html', {'books': books})
-
-
-
+    return render(request, 'base/book_list.html', {'books': books})\
